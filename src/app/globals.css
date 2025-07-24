@@ -37,6 +37,41 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  
+  /* Modern Professional Healthcare Color System */
+  --color-healthcare-primary: #2563EB;
+  --color-healthcare-primary-light: #3B82F6;
+  --color-healthcare-primary-dark: #1D4ED8;
+  --color-healthcare-secondary: #64748B;
+  --color-healthcare-secondary-light: #94A3B8;
+  --color-healthcare-secondary-dark: #475569;
+  --color-healthcare-accent: #0EA5E9;
+  --color-healthcare-accent-light: #38BDF8;
+  --color-healthcare-accent-dark: #0284C7;
+  --color-healthcare-success: #059669;
+  --color-healthcare-success-light: #10B981;
+  --color-healthcare-success-dark: #047857;
+  --color-healthcare-warning: #D97706;
+  --color-healthcare-warning-light: #F59E0B;
+  --color-healthcare-warning-dark: #B45309;
+  --color-healthcare-neutral: #6B7280;
+  --color-healthcare-neutral-light: #9CA3AF;
+  --color-healthcare-neutral-dark: #4B5563;
+  
+  /* Professional Gradient Backgrounds */
+  --gradient-healthcare-primary: linear-gradient(135deg, var(--color-healthcare-primary), var(--color-healthcare-primary-light));
+  --gradient-healthcare-secondary: linear-gradient(135deg, var(--color-healthcare-secondary), var(--color-healthcare-secondary-light));
+  --gradient-healthcare-accent: linear-gradient(135deg, var(--color-healthcare-accent), var(--color-healthcare-accent-light));
+  --gradient-healthcare-success: linear-gradient(135deg, var(--color-healthcare-success), var(--color-healthcare-success-light));
+  --gradient-healthcare-professional: linear-gradient(135deg, var(--color-healthcare-primary), var(--color-healthcare-accent));
+  --gradient-healthcare-subtle: linear-gradient(135deg, var(--color-healthcare-secondary-light), var(--color-healthcare-neutral-light));
+  
+  /* Glassmorphism Variables */
+  --glass-background: rgba(255, 255, 255, 0.15);
+  --glass-background-dark: rgba(0, 0, 0, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-border-dark: rgba(255, 255, 255, 0.1);
+  
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -119,5 +154,121 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer utilities {
+  /* Gradient Text Utilities */
+  .gradient-text-primary {
+    background: var(--gradient-healthcare-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .gradient-text-professional {
+    background: var(--gradient-healthcare-professional);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .gradient-text-accent {
+    background: var(--gradient-healthcare-accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  /* Glassmorphism Utilities */
+  .glass-morphism {
+    background: var(--glass-background);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+  }
+  
+  .glass-morphism-dark {
+    background: var(--glass-background-dark);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border-dark);
+  }
+  
+  /* Animated Backgrounds */
+  .animated-gradient {
+    background: var(--gradient-healthcare-professional);
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite;
+  }
+  
+  .hover-lift {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Icon Animations */
+  .icon-pulse {
+    animation: iconPulse 2s ease-in-out infinite;
+  }
+  
+  .icon-float {
+    animation: iconFloat 3s ease-in-out infinite;
+  }
+  
+  .icon-glow {
+    filter: drop-shadow(0 0 8px currentColor);
+    animation: glowPulse 2s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes iconPulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes glowPulse {
+  0% { filter: drop-shadow(0 0 8px currentColor); }
+  100% { filter: drop-shadow(0 0 20px currentColor); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll-based reveal animation */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
 

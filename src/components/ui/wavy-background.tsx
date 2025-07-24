@@ -15,7 +15,7 @@ export const WavyBackground = ({
   waveOpacity = 0.5,
   ...props
 }: {
-  children?: any;
+  children?: React.ReactNode;
   className?: string;
   containerClassName?: string;
   colors?: string[];
@@ -24,7 +24,7 @@ export const WavyBackground = ({
   blur?: number;
   speed?: "slow" | "fast";
   waveOpacity?: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }) => {
   const noise = createNoise3D();
   let w: number,
@@ -32,8 +32,8 @@ export const WavyBackground = ({
     nt: number,
     i: number,
     x: number,
-    ctx: any,
-    canvas: any;
+    ctx: CanvasRenderingContext2D | null,
+    canvas: HTMLCanvasElement | null;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const getSpeed = () => {
     switch (speed) {
@@ -58,6 +58,7 @@ export const WavyBackground = ({
     ctx.filter = `blur(${blur}px)`;
     nt = 0;
     window.onresize = function () {
+      if (!ctx) return;
       w = ctx.canvas.width = window.innerWidth;
       h = ctx.canvas.height = Math.max(400, window.innerHeight * 0.4);
       ctx.filter = `blur(${blur}px)`;
@@ -73,6 +74,7 @@ export const WavyBackground = ({
     "#22d3ee",
   ];
   const drawWave = (n: number) => {
+    if (!ctx) return;
     nt += getSpeed();
     for (i = 0; i < n; i++) {
       ctx.beginPath();
@@ -81,7 +83,7 @@ export const WavyBackground = ({
       // Start from the very left edge
       ctx.moveTo(0, noise(0 / 1200, 0.3 * i, nt) * 180 + h * 0.5 + (i * 50));
       for (x = 0; x <= w; x += 3) { // Smaller steps for smoother lines
-        var y = noise(x / 1200, 0.3 * i, nt) * 180; // Much bigger amplitude
+        const y = noise(x / 1200, 0.3 * i, nt) * 180; // Much bigger amplitude
         ctx.lineTo(x, y + h * 0.5 + (i * 50)); // More spacing between waves
       }
       ctx.stroke();
@@ -91,6 +93,7 @@ export const WavyBackground = ({
 
   let animationId: number;
   const render = () => {
+    if (!ctx) return;
     // Clear canvas with transparent background
     ctx.clearRect(0, 0, w, h);
     

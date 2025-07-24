@@ -78,7 +78,7 @@ const GlowingEffect = memo(
 
           const currentAngle =
             parseFloat(element.style.getPropertyValue("--start")) || 0;
-          let targetAngle =
+          const targetAngle =
             (180 * Math.atan2(mouseY - center[1], mouseX - center[0])) /
               Math.PI +
             90;
@@ -194,12 +194,66 @@ interface GridItemProps {
   title: string;
   description: React.ReactNode;
   className?: string;
+  variant?: 'default' | 'success' | 'warning' | 'secondary' | 'accent' | 'professional';
+  animated?: boolean;
 }
 
-export const GridItem = ({ area, icon, title, description, className }: GridItemProps) => {
+const itemVariants = {
+  default: {
+    iconBg: 'bg-blue-50 border-blue-200',
+    iconColor: 'text-blue-600',
+    titleGradient: 'gradient-text-primary',
+    glowColor: '#2563EB'
+  },
+  success: {
+    iconBg: 'bg-emerald-50 border-emerald-200',
+    iconColor: 'text-emerald-600',
+    titleGradient: 'bg-gradient-to-r from-emerald-600 to-emerald-700 bg-clip-text text-transparent',
+    glowColor: '#059669'
+  },
+  warning: {
+    iconBg: 'bg-orange-50 border-orange-200',
+    iconColor: 'text-orange-600',
+    titleGradient: 'bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent',
+    glowColor: '#D97706'
+  },
+  secondary: {
+    iconBg: 'bg-slate-50 border-slate-200',
+    iconColor: 'text-slate-600',
+    titleGradient: 'bg-gradient-to-r from-slate-600 to-slate-700 bg-clip-text text-transparent',
+    glowColor: '#64748B'
+  },
+  accent: {
+    iconBg: 'bg-sky-50 border-sky-200',
+    iconColor: 'text-sky-600',
+    titleGradient: 'gradient-text-accent',
+    glowColor: '#0EA5E9'
+  },
+  professional: {
+    iconBg: 'bg-gradient-to-br from-blue-50 to-sky-50 border-blue-200',
+    iconColor: 'text-blue-600',
+    titleGradient: 'gradient-text-professional',
+    glowColor: '#2563EB'
+  }
+};
+
+export const GridItem = ({ 
+  area, 
+  icon, 
+  title, 
+  description, 
+  className, 
+  variant = 'default',
+  animated = true 
+}: GridItemProps) => {
+  const variantStyles = itemVariants[variant];
+  
   return (
-    <li className={cn("min-h-[14rem] list-none", area, className)}>
-      <div className="relative h-full rounded-[1.25rem] border-[0.75px] border-gray-200 p-2 md:rounded-[1.5rem] md:p-3">
+    <li className={cn("min-h-[14rem] list-none group", area, className)}>
+      <div className={cn(
+        "relative h-full rounded-[1.25rem] border-[0.75px] border-gray-200 p-2 md:rounded-[1.5rem] md:p-3 transition-all duration-500",
+        animated && "hover-lift"
+      )}>
         <GlowingEffect
           spread={40}
           glow={true}
@@ -208,20 +262,45 @@ export const GridItem = ({ area, icon, title, description, className }: GridItem
           inactiveZone={0.01}
           borderWidth={2}
         />
-        <div className="relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl border-[0.75px] bg-white p-6 shadow-sm md:p-6">
+        <div className={cn(
+          "relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl border-[0.75px] bg-white p-6 shadow-sm md:p-6 transition-all duration-300",
+          animated && "group-hover:bg-gradient-to-br group-hover:from-white group-hover:to-gray-50/50"
+        )}>
           <div className="relative flex flex-1 flex-col justify-between gap-3">
-            <div className="w-fit rounded-lg border-[0.75px] border-gray-200 bg-gray-50 p-2">
-              {icon}
+            <div className={cn(
+              "w-fit rounded-lg border-[0.75px] p-3 transition-all duration-300",
+              variantStyles.iconBg,
+              animated && "group-hover:scale-110 group-hover:rotate-3"
+            )}>
+              <div className={cn(
+                "transition-all duration-300",
+                variantStyles.iconColor,
+                animated && "icon-float group-hover:icon-glow"
+              )}>
+                {icon}
+              </div>
             </div>
             <div className="space-y-3">
-              <h3 className="pt-0.5 text-xl leading-[1.375rem] font-semibold font-sans tracking-[-0.04em] md:text-2xl md:leading-[1.875rem] text-balance text-gray-900">
+              <h3 className={cn(
+                "pt-0.5 text-xl leading-[1.375rem] font-semibold font-sans tracking-[-0.04em] md:text-2xl md:leading-[1.875rem] text-balance transition-all duration-300",
+                variantStyles.titleGradient,
+                animated && "group-hover:scale-105"
+              )}>
                 {title}
               </h3>
-              <div className="font-sans text-sm leading-[1.125rem] md:text-base md:leading-[1.375rem] text-gray-600">
+              <div className={cn(
+                "font-sans text-sm leading-[1.125rem] md:text-base md:leading-[1.375rem] text-gray-600 transition-all duration-300",
+                animated && "group-hover:text-gray-700"
+              )}>
                 {description}
               </div>
             </div>
           </div>
+          
+          {/* Decorative gradient overlay on hover */}
+          {animated && (
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-transparent via-transparent to-blue-50/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          )}
         </div>
       </div>
     </li>

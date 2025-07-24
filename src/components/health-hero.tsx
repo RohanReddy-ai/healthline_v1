@@ -2,11 +2,14 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { ArrowRight, ChevronRight, Menu, X, Phone, Users, Clock, Shield, AlertTriangle, Target, TrendingUp, Heart, CheckCircle, Lock, Zap } from 'lucide-react'
+import { ArrowRight, Menu, X, Phone, Users, Clock, AlertTriangle, Target, TrendingUp, Heart, CheckCircle, Lock, Zap } from 'lucide-react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { motion, Variants, AnimatePresence } from 'framer-motion'
+import { motion, Variants } from 'framer-motion'
 import { WavyBackground } from '@/components/ui/wavy-background'
 import { GridItem } from '@/components/ui/glowing-effect'
+import { AnimatedIcon } from '@/components/ui/animated-icon'
+import { ScrollReveal } from '@/components/ui/scroll-reveal'
+import { AnimatedCounter } from '@/components/ui/animated-counter'
 
 // cn function (utility)
 function cn(...inputs: (string | undefined | null | boolean)[]) {
@@ -15,7 +18,7 @@ function cn(...inputs: (string | undefined | null | boolean)[]) {
 
 // Button component (from shadcn/ui)
 const buttonVariants = cva(
-    'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+    'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
     {
         variants: {
             variant: {
@@ -28,6 +31,12 @@ const buttonVariants = cva(
                     'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
                 link: 'text-primary underline-offset-4 hover:underline',
+                gradient: 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 hover:scale-105 hover:shadow-xl transform',
+                'gradient-professional': 'bg-gradient-to-r from-blue-600 to-sky-500 text-white hover:from-blue-700 hover:to-sky-600 hover:scale-105 hover:shadow-xl transform',
+                'gradient-success': 'bg-gradient-to-r from-emerald-600 to-emerald-700 text-white hover:from-emerald-700 hover:to-emerald-800 hover:scale-105 hover:shadow-xl transform',
+                'gradient-secondary': 'bg-gradient-to-r from-slate-600 to-slate-700 text-white hover:from-slate-700 hover:to-slate-800 hover:scale-105 hover:shadow-xl transform',
+                'gradient-accent': 'bg-gradient-to-r from-sky-500 to-blue-600 text-white hover:from-sky-600 hover:to-blue-700 hover:scale-105 hover:shadow-xl transform animated-gradient',
+                glass: 'glass-morphism text-gray-900 hover:bg-white/20 hover:scale-105 hover:shadow-xl transform backdrop-blur-md',
             },
             size: {
                 default: 'h-10 px-4 py-2',
@@ -49,13 +58,23 @@ interface ButtonProps
     asChild?: boolean
 }
 
-const Button = React.forwardRef<HTMLButtonElement | HTMLDivElement, ButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ({ className, variant, size, asChild = false, ...props }, ref) => {
-        const Comp = asChild ? 'div' : 'button' // Using 'div' as a fallback for Slot
+        if (asChild) {
+            return (
+                <div
+                    className={cn(buttonVariants({ variant, size, className }))}
+                    {...(props as React.HTMLAttributes<HTMLDivElement>)}
+                >
+                    {props.children}
+                </div>
+            )
+        }
+        
         return (
-            <Comp
+            <button
                 className={cn(buttonVariants({ variant, size, className }))}
-                ref={ref as React.Ref<HTMLButtonElement & HTMLDivElement>}
+                ref={ref}
                 {...props}
             />
         )
@@ -237,7 +256,7 @@ const transitionVariants = {
             filter: 'blur(0px)',
             y: 0,
             transition: {
-                type: 'spring',
+                type: 'spring' as const,
                 bounce: 0.3,
                 duration: 1.5,
             },
@@ -270,7 +289,7 @@ export function HealthHeroSection() {
                                         opacity: 1,
                                         y: 0,
                                         transition: {
-                                            type: 'spring',
+                                            type: 'spring' as const,
                                             bounce: 0.3,
                                             duration: 0.8,
                                         },
@@ -315,17 +334,17 @@ export function HealthHeroSection() {
                                             <div className="absolute left-[-100vw] right-[-100vw] w-[200vw] h-64 translate-y-4">
                                                 <WavyBackground 
                                                     backgroundFill="transparent"
-                                                    waveWidth={4}
-                                                    waveOpacity={0.15}
-                                                    blur={6}
-                                                    colors={["#3b82f6", "#8b5cf6", "#06b6d4", "#d946ef", "#0ea5e9"]}
+                                                    waveWidth={3}
+                                                    waveOpacity={0.25}
+                                                    blur={4}
+                                                    colors={["#2563EB", "#0EA5E9", "#059669", "#64748B", "#3B82F6", "#0284C7"]}
                                                     containerClassName="h-full w-full"
                                                 >
                                                     <div></div>
                                                 </WavyBackground>
                                             </div>
                                         </div>
-                                        <h1 className="relative max-w-5xl mx-auto text-balance text-6xl md:text-7xl xl:text-[5.25rem] font-bold bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 bg-clip-text text-transparent">
+                                        <h1 className="relative max-w-5xl mx-auto text-balance text-6xl md:text-7xl xl:text-[5.25rem] font-bold gradient-text-professional">
                                             AI Voice Assistants for a Smarter, More Efficient Practice
                                         </h1>
                                     </div>
@@ -348,15 +367,14 @@ export function HealthHeroSection() {
                                         ...transitionVariants,
                                     }}
                                     className="mt-12 flex flex-col items-center justify-center gap-2 md:flex-row">
-                                    <div
-                                        key={1}
-                                        className="bg-blue-600 rounded-[14px] border border-blue-600 p-0.5">
+                                    <div key={1}>
                                         <Button
                                             asChild
                                             size="lg"
-                                            className="rounded-xl px-6 py-3 text-base bg-blue-600 hover:bg-blue-700 text-white font-semibold">
+                                            variant="gradient-professional"
+                                            className="rounded-xl px-6 py-3 text-base font-semibold">
                                             <Link href="/demo" className="flex items-center gap-2">
-                                                <Phone className="w-4 h-4" />
+                                                <AnimatedIcon animation="glow" size="sm" className="text-white"><Phone /></AnimatedIcon>
                                                 <span className="text-nowrap">Try Our Demo</span>
                                             </Link>
                                         </Button>
@@ -365,7 +383,7 @@ export function HealthHeroSection() {
                                         key={2}
                                         asChild
                                         size="lg"
-                                        variant="ghost"
+                                        variant="glass"
                                         className="h-10.5 rounded-xl px-5">
                                         <Link href="#solutions">
                                             <span className="text-nowrap">See Our Solutions</span>
@@ -376,20 +394,24 @@ export function HealthHeroSection() {
                         </div>
 
                         {/* Our Current Focus Section */}
-                        <section className="py-20" style={{backgroundColor: '#e7eeff'}}>
-                            <div className="max-w-6xl mx-auto px-6">
-                                <div className="text-center mb-16">
-                                    <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Practical AI Automations for Primary Care</h2>
-                                    <h3 className="text-2xl font-semibold text-blue-600 mb-8">Automated Sample Labeling Assistant</h3>
-                                </div>
+                        <section className="py-20 bg-gradient-to-br from-blue-50 via-sky-50 to-slate-50 relative overflow-hidden">
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-100/20 via-transparent to-sky-100/20"></div>
+                            <div className="max-w-6xl mx-auto px-6 relative z-10">
+                                <ScrollReveal direction="up" delay={0.2}>
+                                    <div className="text-center mb-16">
+                                        <h2 className="text-4xl md:text-5xl font-bold gradient-text-primary mb-6">Practical AI Automations for Primary Care</h2>
+                                        <h3 className="text-2xl font-semibold bg-gradient-to-r from-emerald-600 to-emerald-700 bg-clip-text text-transparent mb-8">Automated Sample Labeling Assistant</h3>
+                                    </div>
+                                </ScrollReveal>
 
                                 {/* Automated Sample Labeling Assistant - Bento Grid Style */}
-                                <div className="mb-12">
-                                    
-                                    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 list-none">
+                                <ScrollReveal direction="up" delay={0.4}>
+                                    <div className="mb-12">
+                                        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 list-none">
                                         <GridItem
                                             area="lg:col-span-1"
-                                            icon={<AlertTriangle className="h-5 w-5 text-gray-600" />}
+                                            variant="warning"
+                                            icon={<AnimatedIcon animation="pulse" color="warning" size="md"><AlertTriangle /></AnimatedIcon>}
                                             title="The Challenge"
                                             description="Incorrectly labelled patient samples lead to rejected tests, wasted resources, and delays in care. Staff spend valuable time guiding patients through the process manually."
                                             className="min-h-[14rem]"
@@ -397,7 +419,8 @@ export function HealthHeroSection() {
                                         
                                         <GridItem
                                             area="lg:col-span-1"
-                                            icon={<Phone className="h-5 w-5 text-gray-600" />}
+                                            variant="accent"
+                                            icon={<AnimatedIcon animation="float" color="accent" size="md"><Phone /></AnimatedIcon>}
                                             title="Our Solution"
                                             description="A simple, automated voice interface that patients can call. It provides clear, step-by-step instructions for correctly labeling their sample and placing it in the right location."
                                             className="min-h-[14rem]"
@@ -405,19 +428,26 @@ export function HealthHeroSection() {
                                         
                                         <GridItem
                                             area="lg:col-span-1"
-                                            icon={<TrendingUp className="h-5 w-5 text-gray-600" />}
+                                            variant="success"
+                                            icon={<AnimatedIcon animation="bounce" color="success" size="md"><TrendingUp /></AnimatedIcon>}
                                             title="The Impact"
                                             description={<>
                                                 <div className="text-center mb-4">
-                                                    <div className="text-3xl font-bold text-gray-900 mb-1">£25,000</div>
-                                                    <p className="text-sm text-gray-600">Annual savings per practice</p>
+                                                    <AnimatedCounter 
+                                                        value={25000} 
+                                                        prefix="£" 
+                                                        duration={2.5}
+                                                        className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent mb-1"
+                                                    />
+                                                    <p className="text-sm text-emerald-600">Annual savings per practice</p>
                                                 </div>
                                                 <p className="text-sm">Reduced errors, staff time savings, and faster patient care.</p>
                                             </>}
                                             className="min-h-[14rem]"
                                         />
-                                    </ul>
-                                </div>
+                                        </ul>
+                                    </div>
+                                </ScrollReveal>
                             </div>
                         </section>
                     </div>
@@ -425,69 +455,83 @@ export function HealthHeroSection() {
                 
 
                 {/* UK Primary Care Statistics Section - Bento Style */}
-                <section className="py-20" style={{backgroundColor: '#eceef1'}}>
-                    <div className="max-w-6xl mx-auto px-6">
-                        <div className="text-center mb-16">
-                            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Why Is This Necessary?</h2>
-                            <h3 className="text-2xl font-semibold text-blue-600 mb-8">The Strain on UK Primary Care</h3>
-                        </div>
-                        <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 list-none">
+                <section className="py-20 bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-100/15 via-transparent to-blue-100/15"></div>
+                    <div className="max-w-6xl mx-auto px-6 relative z-10">
+                        <ScrollReveal direction="up" delay={0.1}>
+                            <div className="text-center mb-16">
+                                <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-6">Why Is This Necessary?</h2>
+                                <h3 className="text-2xl font-semibold bg-gradient-to-r from-slate-600 to-slate-700 bg-clip-text text-transparent mb-8">The Strain on UK Primary Care</h3>
+                            </div>
+                        </ScrollReveal>
+                        <ScrollReveal direction="up" delay={0.3}>
+                            <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 list-none">
                             <GridItem
-                                icon={<Phone className="h-5 w-5 text-gray-600" />}
+                                variant="warning"
+                                icon={<AnimatedIcon animation="glow" color="warning" size="md"><Phone /></AnimatedIcon>}
                                 title="15+ Million"
                                 description="Patient calls to GP practices go unanswered each year in the UK"
                                 className="min-h-[12rem]"
                             />
                             <GridItem
-                                icon={<Clock className="h-5 w-5 text-gray-600" />}
+                                variant="accent"
+                                icon={<AnimatedIcon animation="spin" color="accent" size="md"><Clock /></AnimatedIcon>}
                                 title="30 Minutes"
                                 description="The average time a patient can spend waiting in a phone queue"
                                 className="min-h-[12rem]"
                             />
                             <GridItem
-                                icon={<Users className="h-5 w-5 text-gray-600" />}
+                                variant="secondary"
+                                icon={<AnimatedIcon animation="float" color="secondary" size="md"><Users /></AnimatedIcon>}
                                 title="32%"
                                 description="of older adults are unable to navigate complex GP online booking systems"
                                 className="min-h-[12rem]"
                             />
                             <GridItem
-                                icon={<Heart className="h-5 w-5 text-gray-600" />}
+                                variant="success"
+                                icon={<AnimatedIcon animation="pulse" color="success" size="md"><Heart /></AnimatedIcon>}
                                 title="Burnout Crisis"
                                 description="Receptionists facing high workloads and stressful environments are experiencing rising levels of burnout"
                                 className="min-h-[12rem]"
                             />
-                        </ul>
+                            </ul>
+                        </ScrollReveal>
                     </div>
                 </section>
 
                 {/* Technology Trust & Safety Section - Bento Style */}
-                <section className="py-20" style={{backgroundColor: '#e7eeff'}}>
-                    <div className="max-w-6xl mx-auto px-6">
+                <section className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-slate-50 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-100/20 via-transparent to-indigo-100/20"></div>
+                    <div className="max-w-6xl mx-auto px-6 relative z-10">
                         <div className="text-center mb-16">
-                            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Technology Built for Trust & Safety</h2>
-                            <h3 className="text-2xl font-semibold text-blue-600 mb-8">Clinically-Led and Secure by Design</h3>
+                            <h2 className="text-4xl md:text-5xl font-bold gradient-text-professional mb-6">Technology Built for Trust & Safety</h2>
+                            <h3 className="text-2xl font-semibold bg-gradient-to-r from-emerald-600 to-blue-600 bg-clip-text text-transparent mb-8">Clinically-Led and Secure by Design</h3>
                         </div>
                         <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 list-none">
                             <GridItem
-                                icon={<Heart className="h-5 w-5 text-gray-600" />}
+                                variant="success"
+                                icon={<Heart className="h-5 w-5" />}
                                 title="Human-like Empathy"
                                 description="Our AI's responses have been rated as more empathetic than those of physicians, ensuring patients feel heard and understood."
                                 className="min-h-[14rem]"
                             />
                             <GridItem
-                                icon={<Target className="h-5 w-5 text-gray-600" />}
+                                variant="accent"
+                                icon={<Target className="h-5 w-5" />}
                                 title="High Triage Accuracy"
                                 description="In tests, our underlying technology correctly triaged 100% of critical neurosurgery emergency cases, demonstrating its reliability."
                                 className="min-h-[14rem]"
                             />
                             <GridItem
-                                icon={<Lock className="h-5 w-5 text-gray-600" />}
+                                variant="secondary"
+                                icon={<Lock className="h-5 w-5" />}
                                 title="Secure Integration"
                                 description="We connect securely to NHS clinical systems (EMIS, SystmOne, Vision) using standard APIs, with a human-in-the-loop interface for staff oversight."
                                 className="min-h-[14rem]"
                             />
                             <GridItem
-                                icon={<CheckCircle className="h-5 w-5 text-gray-600" />}
+                                variant="default"
+                                icon={<CheckCircle className="h-5 w-5" />}
                                 title="Gold-Standard Compliance"
                                 description="Our solutions are built to meet the highest standards, including the NHS DSP Toolkit, UK GDPR, and the DCB0129/0160 clinical safety frameworks."
                                 className="min-h-[14rem]"
@@ -497,11 +541,12 @@ export function HealthHeroSection() {
                 </section>
 
                 {/* Our Team Section */}
-                <section className="py-20" style={{backgroundColor: '#e7eeff'}}>
-                    <div className="max-w-6xl mx-auto px-6">
+                <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-sky-50 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-100/15 via-transparent to-blue-100/15"></div>
+                    <div className="max-w-6xl mx-auto px-6 relative z-10">
                         <div className="text-center mb-16">
-                            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Our Team</h2>
-                            <h3 className="text-2xl font-semibold text-blue-600 mb-8">Built by a coalition of clinicians and innovators from</h3>
+                            <h2 className="text-4xl md:text-5xl font-bold gradient-text-accent mb-6">Our Team</h2>
+                            <h3 className="text-2xl font-semibold bg-gradient-to-r from-slate-600 to-blue-600 bg-clip-text text-transparent mb-8">Built by a coalition of clinicians and innovators from</h3>
                         </div>
                         <div className="flex items-center justify-center gap-12 flex-wrap">
                             <div className="text-center">
@@ -525,18 +570,20 @@ export function HealthHeroSection() {
                 </section>
 
                 {/* The Vision Section - Concise & Elegant */}
-                <section className="py-20" style={{backgroundColor: '#eceef1'}}>
-                    <div className="max-w-4xl mx-auto px-6">
+                <section className="py-20 bg-gradient-to-br from-blue-50 via-slate-50 to-gray-50 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-100/20 via-transparent to-slate-100/20"></div>
+                    <div className="max-w-4xl mx-auto px-6 relative z-10">
                         <div className="text-center mb-12">
-                            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">The Vision</h2>
-                            <h3 className="text-2xl font-semibold text-blue-600 mb-8">A Future with Zero Barriers to Access</h3>
+                            <h2 className="text-4xl md:text-5xl font-bold gradient-text-primary mb-6">The Vision</h2>
+                            <h3 className="text-2xl font-semibold bg-gradient-to-r from-emerald-600 to-sky-600 bg-clip-text text-transparent mb-8">A Future with Zero Barriers to Access</h3>
                         </div>
                         <ul className="grid grid-cols-1 gap-4 list-none">
                             <GridItem
-                                icon={<Zap className="h-5 w-5 text-gray-600" />}
+                                variant="professional"
+                                icon={<Zap className="h-5 w-5" />}
                                 title="Our Long-Term Goal: The AI Receptionist"
                                 description={<>
-                                    <p className="mb-4">The front desk is the heart of a GP practice, but it's also a major bottleneck. Our ultimate vision is to eliminate long phone queues and missed calls entirely.</p>
+                                    <p className="mb-4">The front desk is the heart of a GP practice, but it&apos;s also a major bottleneck. Our ultimate vision is to eliminate long phone queues and missed calls entirely.</p>
                                     <p>The Healthline AI Receptionist will handle inbound patient calls with human-like empathy and precision, freeing up your reception staff to focus on complex cases that require their expertise. Currently in development pending regulatory approval.</p>
                                 </>}
                                 className="min-h-[16rem]"
@@ -546,42 +593,44 @@ export function HealthHeroSection() {
                 </section>
 
                 {/* Contact Us Section */}
-                <section className="py-20 bg-gradient-to-br from-blue-600 to-blue-800 text-white">
-                    <div className="max-w-4xl mx-auto px-6">
+                <section className="py-20 bg-gradient-to-br from-blue-600 via-sky-600 to-blue-700 text-white relative overflow-hidden animated-gradient">
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-transparent to-sky-500/15"></div>
+                    <div className="max-w-4xl mx-auto px-6 relative z-10">
                         <div className="text-center mb-12">
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6">Start Automating Your Practice Today</h2>
+                            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-pulse">Start Automating Your Practice Today</h2>
                             <p className="text-xl text-blue-100">Ready to see how a targeted voice AI solution can reduce your costs and administrative burden? Reach out to us to try our demo.</p>
                         </div>
-                        <div className="bg-white rounded-2xl p-8 shadow-2xl">
+                        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/20">
                             <form className="space-y-6">
                                 <div className="grid md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                                        <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                                        <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300" />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Practice Name</label>
-                                        <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                                        <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300" />
                                     </div>
                                 </div>
                                 <div className="grid md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                                        <input type="email" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                                        <input type="email" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300" />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                                        <input type="tel" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+                                        <input type="tel" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300" />
                                     </div>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-2">Message (Optional)</label>
-                                    <textarea rows={4} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                                    <textarea rows={4} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300"></textarea>
                                 </div>
                                 <Button
                                     type="submit"
                                     size="lg"
-                                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 text-lg rounded-lg">
+                                    variant="gradient-professional"
+                                    className="w-full font-semibold py-4 text-lg rounded-lg">
                                     Submit
                                 </Button>
                             </form>
@@ -699,7 +748,7 @@ const HeroHeader = () => {
     )
 }
 
-const Logo = ({ className }: { className?: string }) => {
+const Logo = () => {
     return (
         <div className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
