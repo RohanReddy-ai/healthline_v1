@@ -750,13 +750,12 @@ const HeroHeader = () => {
 
 const Logo = () => {
     return (
-        <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
-                <Phone className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                Health Line AI
-            </span>
+        <div className="flex items-center">
+            <img 
+                src="/Logo with Text.png" 
+                alt="Health Line AI Logo" 
+                className="h-24 w-auto md:h-28"
+            />
         </div>
     )
 }
