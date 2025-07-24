@@ -262,15 +262,15 @@ const transitionVariants = {
             },
         },
     },
-}
+};
 
 export function HealthHeroSection() {
     return (
         <>
             <HeroHeader />
-            <main className="overflow-hidden" style={{backgroundColor: '#ECEEF1'}}>
+            <main className="overflow-hidden" style={{ backgroundColor: '#ECEEF1' }}>
                 <section>
-                    <div className="relative pt-24 md:pt-36">
+                    <div className="relative pt-24 md:pt-36 pb-20">
                         <AnimatedGroup
                             variants={{
                                 container: {
@@ -344,8 +344,8 @@ export function HealthHeroSection() {
                                                 </WavyBackground>
                                             </div>
                                         </div>
-                                        <h1 className="relative max-w-5xl mx-auto text-balance text-6xl md:text-7xl xl:text-[5.25rem] font-bold gradient-text-professional">
-                                            AI Voice Assistants for a Smarter, More Efficient Practice
+                                        <h1 className="relative max-w-7xl mx-auto text-balance text-6xl md:text-7xl xl:text-[5.25rem] font-bold text-gray-900">
+                                            AI Voice Assistants for a <span className="gradient-text-professional">Smarter, More Efficient</span> Practice
                                         </h1>
                                     </div>
                                     <p
@@ -366,7 +366,7 @@ export function HealthHeroSection() {
                                         },
                                         ...transitionVariants,
                                     }}
-                                    className="mt-12 flex flex-col items-center justify-center gap-2 md:flex-row">
+                                    className="mt-16 mb-16 flex flex-col items-center justify-center gap-2 md:flex-row">
                                     <div key={1}>
                                         <Button
                                             asChild
@@ -392,10 +392,10 @@ export function HealthHeroSection() {
                                 </AnimatedGroup>
                             </div>
                         </div>
+                    </div>
 
                         {/* Our Current Focus Section */}
-                        <section className="py-20 bg-gradient-to-br from-blue-50 via-sky-50 to-slate-50 relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-100/20 via-transparent to-sky-100/20"></div>
+                        <section className="py-12 relative overflow-hidden" style={{backgroundColor: '#F8FAFC'}}>
                             <div className="max-w-6xl mx-auto px-6 relative z-10">
                                 <ScrollReveal direction="up" delay={0.2}>
                                     <div className="text-center mb-16">
@@ -450,12 +450,9 @@ export function HealthHeroSection() {
                                 </ScrollReveal>
                             </div>
                         </section>
-                    </div>
-                </section>
-                
 
                 {/* UK Primary Care Statistics Section - Bento Style */}
-                <section className="py-20 bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 relative overflow-hidden">
+                <section className="py-12 relative overflow-hidden" style={{backgroundColor: '#ECEEF1'}}>
                     <div className="absolute inset-0 bg-gradient-to-r from-slate-100/15 via-transparent to-blue-100/15"></div>
                     <div className="max-w-6xl mx-auto px-6 relative z-10">
                         <ScrollReveal direction="up" delay={0.1}>
@@ -500,7 +497,7 @@ export function HealthHeroSection() {
                 </section>
 
                 {/* Technology Trust & Safety Section - Bento Style */}
-                <section className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-slate-50 relative overflow-hidden">
+                <section className="py-12 relative overflow-hidden" style={{backgroundColor: '#F8FAFC'}}>
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-100/20 via-transparent to-indigo-100/20"></div>
                     <div className="max-w-6xl mx-auto px-6 relative z-10">
                         <div className="text-center mb-16">
@@ -541,7 +538,7 @@ export function HealthHeroSection() {
                 </section>
 
                 {/* Our Team Section */}
-                <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-sky-50 relative overflow-hidden">
+                <section className="py-12 relative overflow-hidden" style={{backgroundColor: '#ECEEF1'}}>
                     <div className="absolute inset-0 bg-gradient-to-r from-slate-100/15 via-transparent to-blue-100/15"></div>
                     <div className="max-w-6xl mx-auto px-6 relative z-10">
                         <div className="text-center mb-16">
@@ -570,7 +567,7 @@ export function HealthHeroSection() {
                 </section>
 
                 {/* The Vision Section - Concise & Elegant */}
-                <section className="py-20 bg-gradient-to-br from-blue-50 via-slate-50 to-gray-50 relative overflow-hidden">
+                <section className="py-12 relative overflow-hidden" style={{backgroundColor: '#F8FAFC'}}>
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-100/20 via-transparent to-slate-100/20"></div>
                     <div className="max-w-4xl mx-auto px-6 relative z-10">
                         <div className="text-center mb-12">
@@ -637,17 +634,13 @@ export function HealthHeroSection() {
                         </div>
                     </div>
                 </section>
+                </section>
             </main>
         </>
     )
 }
 
-const menuItems = [
-    { name: 'Features', href: '#features' },
-    { name: 'Problem', href: '#problem' },
-    { name: 'Solution', href: '#solution' },
-    { name: 'Demo', href: '/demo' },
-]
+const menuItems: { name: string; href: string }[] = []
 
 const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false)
@@ -716,27 +709,18 @@ const HeroHeader = () => {
                             <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 <Button
                                     asChild
-                                    variant="outline"
-                                    size="sm"
-                                    className={cn(isScrolled && 'lg:hidden')}>
+                                    variant="ghost"
+                                    size="sm">
+                                    <Link href="#contact">
+                                        <span>Sign Up</span>
+                                    </Link>
+                                </Button>
+                                <Button
+                                    asChild
+                                    variant="gradient-professional"
+                                    size="sm">
                                     <Link href="/demo">
                                         <span>Try Demo</span>
-                                    </Link>
-                                </Button>
-                                <Button
-                                    asChild
-                                    size="sm"
-                                    className={cn(isScrolled && 'lg:hidden')}>
-                                    <Link href="#contact">
-                                        <span>Contact Us</span>
-                                    </Link>
-                                </Button>
-                                <Button
-                                    asChild
-                                    size="sm"
-                                    className={cn(isScrolled ? 'lg:inline-flex' : 'hidden', 'bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900')}>
-                                    <Link href="/demo">
-                                        <span>Get Started</span>
                                     </Link>
                                 </Button>
                             </div>
@@ -752,7 +736,7 @@ const Logo = () => {
     return (
         <div className="flex items-center">
             <img 
-                src="/Logo with Text.png" 
+                src="/Logo with Text (1).png" 
                 alt="Health Line AI Logo" 
                 className="h-24 w-auto md:h-28"
             />
