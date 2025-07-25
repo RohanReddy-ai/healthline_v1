@@ -371,14 +371,14 @@ function ContactFormSection() {
                                 </div>
                             </div>
                             <div className="grid md:grid-cols-2 gap-6">
-                                <div>
+                                <div className="min-w-0">
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Email Address <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="email"
                                         {...register('email')}
-                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 ${
+                                        className={`w-full max-w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 ${
                                             errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
                                         }`}
                                         placeholder="your.email@practice.com"
@@ -387,33 +387,33 @@ function ContactFormSection() {
                                         <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
                                     )}
                                 </div>
-                                <div>
+                                <div className="min-w-0">
                                     <label className="block text-sm font-medium text-gray-700 mb-2">
                                         Phone Number <span className="text-red-500">*</span>
                                     </label>
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-2 w-full">
                                         <select
                                             {...register('countryCode')}
-                                            className={`px-3 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 ${
+                                            className={`flex-shrink-0 px-2 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 text-sm ${
                                                 errors.countryCode ? 'border-red-300 bg-red-50' : 'border-gray-300'
                                             }`}
                                         >
                                             <option value="">Code</option>
-                                            <option value="+44">+44 (UK)</option>
-                                            <option value="+1">+1 (US/CA)</option>
-                                            <option value="+33">+33 (FR)</option>
-                                            <option value="+49">+49 (DE)</option>
-                                            <option value="+39">+39 (IT)</option>
-                                            <option value="+34">+34 (ES)</option>
-                                            <option value="+31">+31 (NL)</option>
-                                            <option value="+32">+32 (BE)</option>
-                                            <option value="+41">+41 (CH)</option>
-                                            <option value="+43">+43 (AT)</option>
+                                            <option value="+44">+44</option>
+                                            <option value="+1">+1</option>
+                                            <option value="+33">+33</option>
+                                            <option value="+49">+49</option>
+                                            <option value="+39">+39</option>
+                                            <option value="+34">+34</option>
+                                            <option value="+31">+31</option>
+                                            <option value="+32">+32</option>
+                                            <option value="+41">+41</option>
+                                            <option value="+43">+43</option>
                                         </select>
                                         <input
                                             type="tel"
                                             {...register('phone')}
-                                            className={`flex-1 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 ${
+                                            className={`flex-1 min-w-0 px-3 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 ${
                                                 errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-300'
                                             }`}
                                             placeholder="123 456 7890"
@@ -598,8 +598,8 @@ export function HealthHeroSection() {
                                         size="lg"
                                         variant="glass"
                                         className="h-10.5 rounded-xl px-5">
-                                        <Link href="#solutions">
-                                            <span className="text-nowrap">See Our Solutions</span>
+                                        <Link href="#contact">
+                                            <span className="text-nowrap">Sign Up</span>
                                         </Link>
                                     </Button>
                                 </AnimatedGroup>
@@ -670,7 +670,7 @@ export function HealthHeroSection() {
                     <div className="max-w-6xl mx-auto px-6 relative z-10">
                         <ScrollReveal direction="up" delay={0.1}>
                             <div className="text-center mb-16">
-                                <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-6">Why Is This Necessary?</h2>
+                                <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-sky-600 bg-clip-text text-transparent mb-6">Why Is This Necessary?</h2>
                                 <h3 className="text-2xl font-semibold bg-gradient-to-r from-slate-600 to-slate-700 bg-clip-text text-transparent mb-8">The Strain on UK Primary Care</h3>
                             </div>
                         </ScrollReveal>
@@ -861,9 +861,9 @@ const HeroHeader = () => {
                             </ul>
                         </div>
 
-                        <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
+                        <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-3 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
                             <div className="lg:hidden">
-                                <ul className="space-y-6 text-base">
+                                <ul className="space-y-3 text-base">
                                     {menuItems.map((item, index) => (
                                         <li key={index}>
                                             <Link
@@ -875,7 +875,7 @@ const HeroHeader = () => {
                                     ))}
                                 </ul>
                             </div>
-                            <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+                            <div className="flex w-full flex-col space-y-2 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
                                 <Button
                                     asChild
                                     variant="ghost"
