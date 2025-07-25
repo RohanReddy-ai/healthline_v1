@@ -327,7 +327,7 @@ function ContactFormSection() {
 
     return (
         <>
-            <section className="py-20 bg-gradient-to-br from-blue-600 via-sky-600 to-blue-700 text-white relative overflow-hidden animated-gradient">
+            <section id="contact" className="py-20 bg-gradient-to-br from-blue-600 via-sky-600 to-blue-700 text-white relative overflow-hidden animated-gradient">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-transparent to-sky-500/15"></div>
                 <div className="max-w-4xl mx-auto px-6 relative z-10">
                     <div className="text-center mb-12">
@@ -344,7 +344,7 @@ function ContactFormSection() {
                                     <input
                                         type="text"
                                         {...register('fullName')}
-                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 ${
                                             errors.fullName ? 'border-red-300 bg-red-50' : 'border-gray-300'
                                         }`}
                                         placeholder="Enter your full name"
@@ -360,7 +360,7 @@ function ContactFormSection() {
                                     <input
                                         type="text"
                                         {...register('practiceName')}
-                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 ${
                                             errors.practiceName ? 'border-red-300 bg-red-50' : 'border-gray-300'
                                         }`}
                                         placeholder="Enter your practice name"
@@ -378,7 +378,7 @@ function ContactFormSection() {
                                     <input
                                         type="email"
                                         {...register('email')}
-                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 ${
                                             errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
                                         }`}
                                         placeholder="your.email@practice.com"
@@ -394,7 +394,7 @@ function ContactFormSection() {
                                     <div className="flex gap-2">
                                         <select
                                             {...register('countryCode')}
-                                            className={`px-3 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                            className={`px-3 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 ${
                                                 errors.countryCode ? 'border-red-300 bg-red-50' : 'border-gray-300'
                                             }`}
                                         >
@@ -413,7 +413,7 @@ function ContactFormSection() {
                                         <input
                                             type="tel"
                                             {...register('phone')}
-                                            className={`flex-1 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                            className={`flex-1 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 ${
                                                 errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-300'
                                             }`}
                                             placeholder="123 456 7890"
@@ -431,7 +431,7 @@ function ContactFormSection() {
                                 <textarea
                                     rows={4}
                                     {...register('message')}
-                                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 text-gray-900 ${
                                         errors.message ? 'border-red-300 bg-red-50' : 'border-gray-300'
                                     }`}
                                     placeholder="Tell us about your practice or any specific requirements..."
