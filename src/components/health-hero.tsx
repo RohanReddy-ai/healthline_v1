@@ -736,9 +736,9 @@ const Logo = () => {
     return (
         <div className="flex items-center">
             <img 
-                src="/Logo with Text (1).png" 
+                src="/newer_logo.png" 
                 alt="Health Line AI Logo" 
-                className="h-24 w-auto md:h-28"
+                className="h-12 w-auto md:h-16"
             />
         </div>
     )
