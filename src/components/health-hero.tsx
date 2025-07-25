@@ -2,14 +2,18 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { ArrowRight, Menu, X, Phone, Users, Clock, AlertTriangle, Target, TrendingUp, Heart, CheckCircle, Lock, Zap } from 'lucide-react'
+import { ArrowRight, Menu, X, Phone, Users, Clock, AlertTriangle, Target, TrendingUp, Heart, CheckCircle, Lock, Zap, Loader2 } from 'lucide-react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { motion, Variants } from 'framer-motion'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 import { WavyBackground } from '@/components/ui/wavy-background'
 import { GridItem } from '@/components/ui/glowing-effect'
 import { AnimatedIcon } from '@/components/ui/animated-icon'
 import { ScrollReveal } from '@/components/ui/scroll-reveal'
 import { AnimatedCounter } from '@/components/ui/animated-counter'
+import { SuccessModal } from '@/components/ui/success-modal'
 
 // cn function (utility)
 function cn(...inputs: (string | undefined | null | boolean)[]) {
@@ -263,6 +267,215 @@ const transitionVariants = {
         },
     },
 };
+
+// Contact form validation schema
+const contactFormSchema = z.object({
+    fullName: z.string().min(2, 'Full name must be at least 2 characters').max(100, 'Full name must be less than 100 characters'),
+    practiceName: z.string().min(2, 'Practice name must be at least 2 characters').max(200, 'Practice name must be less than 200 characters'),
+    email: z.string().email('Please enter a valid email address'),
+    phone: z.string().min(6, 'Phone number must be at least 6 characters').max(20, 'Phone number must be less than 20 characters'),
+    countryCode: z.string().min(2, 'Country code is required').max(5, 'Invalid country code'),
+    message: z.string().max(1000, 'Message must be less than 1000 characters').optional()
+})
+
+type ContactFormData = z.infer<typeof contactFormSchema>
+
+// Contact Form Component
+function ContactFormSection() {
+    const [isSubmitting, setIsSubmitting] = React.useState(false)
+    const [showSuccessModal, setShowSuccessModal] = React.useState(false)
+    const [submitError, setSubmitError] = React.useState<string | null>(null)
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset
+    } = useForm<ContactFormData>({
+        resolver: zodResolver(contactFormSchema)
+    })
+
+    const onSubmit = async (data: ContactFormData) => {
+        setIsSubmitting(true)
+        setSubmitError(null)
+
+        try {
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+
+            const result = await response.json()
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to submit form')
+            }
+
+            // Success - show modal and reset form
+            setShowSuccessModal(true)
+            reset()
+
+        } catch (error) {
+            setSubmitError(error instanceof Error ? error.message : 'An unexpected error occurred')
+        } finally {
+            setIsSubmitting(false)
+        }
+    }
+
+    return (
+        <>
+            <section className="py-20 bg-gradient-to-br from-blue-600 via-sky-600 to-blue-700 text-white relative overflow-hidden animated-gradient">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-transparent to-sky-500/15"></div>
+                <div className="max-w-4xl mx-auto px-6 relative z-10">
+                    <div className="text-center mb-12">
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-pulse">Start Automating Your Practice Today</h2>
+                        <p className="text-xl text-blue-100">Ready to see how a targeted voice AI solution can reduce your costs and administrative burden? Reach out to us to try our demo.</p>
+                    </div>
+                    <div className="bg-white/95 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/20">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Full Name <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        {...register('fullName')}
+                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                            errors.fullName ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                                        }`}
+                                        placeholder="Enter your full name"
+                                    />
+                                    {errors.fullName && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.fullName.message}</p>
+                                    )}
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Practice Name <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        {...register('practiceName')}
+                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                            errors.practiceName ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                                        }`}
+                                        placeholder="Enter your practice name"
+                                    />
+                                    {errors.practiceName && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.practiceName.message}</p>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Email Address <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="email"
+                                        {...register('email')}
+                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                            errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                                        }`}
+                                        placeholder="your.email@practice.com"
+                                    />
+                                    {errors.email && (
+                                        <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                                    )}
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Phone Number <span className="text-red-500">*</span>
+                                    </label>
+                                    <div className="flex gap-2">
+                                        <select
+                                            {...register('countryCode')}
+                                            className={`px-3 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                                errors.countryCode ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                                            }`}
+                                        >
+                                            <option value="">Code</option>
+                                            <option value="+44">+44 (UK)</option>
+                                            <option value="+1">+1 (US/CA)</option>
+                                            <option value="+33">+33 (FR)</option>
+                                            <option value="+49">+49 (DE)</option>
+                                            <option value="+39">+39 (IT)</option>
+                                            <option value="+34">+34 (ES)</option>
+                                            <option value="+31">+31 (NL)</option>
+                                            <option value="+32">+32 (BE)</option>
+                                            <option value="+41">+41 (CH)</option>
+                                            <option value="+43">+43 (AT)</option>
+                                        </select>
+                                        <input
+                                            type="tel"
+                                            {...register('phone')}
+                                            className={`flex-1 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                                errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                                            }`}
+                                            placeholder="123 456 7890"
+                                        />
+                                    </div>
+                                    {(errors.countryCode || errors.phone) && (
+                                        <p className="mt-1 text-sm text-red-600">
+                                            {errors.countryCode?.message || errors.phone?.message}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Message (Optional)</label>
+                                <textarea
+                                    rows={4}
+                                    {...register('message')}
+                                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300 ${
+                                        errors.message ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                                    }`}
+                                    placeholder="Tell us about your practice or any specific requirements..."
+                                />
+                                {errors.message && (
+                                    <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
+                                )}
+                            </div>
+
+                            {submitError && (
+                                <div className="bg-red-50 border border-red-300 rounded-lg p-4">
+                                    <p className="text-sm text-red-600">{submitError}</p>
+                                </div>
+                            )}
+
+                            <Button
+                                type="submit"
+                                size="lg"
+                                variant="gradient-professional"
+                                disabled={isSubmitting}
+                                className="w-full font-semibold py-4 text-lg rounded-lg flex items-center justify-center gap-2">
+                                {isSubmitting ? (
+                                    <>
+                                        <Loader2 className="h-5 w-5 animate-spin" />
+                                        Submitting...
+                                    </>
+                                ) : (
+                                    'Submit'
+                                )}
+                            </Button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <SuccessModal
+                isOpen={showSuccessModal}
+                onClose={() => setShowSuccessModal(false)}
+                title="Thank You!"
+                message="We've received your message and will be in touch with you shortly to discuss how we can help automate your practice."
+            />
+        </>
+    )
+}
 
 export function HealthHeroSection() {
     return (
@@ -589,51 +802,7 @@ export function HealthHeroSection() {
                     </div>
                 </section>
 
-                {/* Contact Us Section */}
-                <section className="py-20 bg-gradient-to-br from-blue-600 via-sky-600 to-blue-700 text-white relative overflow-hidden animated-gradient">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-500/15 via-transparent to-sky-500/15"></div>
-                    <div className="max-w-4xl mx-auto px-6 relative z-10">
-                        <div className="text-center mb-12">
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-pulse">Start Automating Your Practice Today</h2>
-                            <p className="text-xl text-blue-100">Ready to see how a targeted voice AI solution can reduce your costs and administrative burden? Reach out to us to try our demo.</p>
-                        </div>
-                        <div className="bg-white/95 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/20">
-                            <form className="space-y-6">
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
-                                        <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Practice Name</label>
-                                        <input type="text" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300" />
-                                    </div>
-                                </div>
-                                <div className="grid md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                                        <input type="email" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300" />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                                        <input type="tel" className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Message (Optional)</label>
-                                    <textarea rows={4} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 hover:border-blue-300"></textarea>
-                                </div>
-                                <Button
-                                    type="submit"
-                                    size="lg"
-                                    variant="gradient-professional"
-                                    className="w-full font-semibold py-4 text-lg rounded-lg">
-                                    Submit
-                                </Button>
-                            </form>
-                        </div>
-                    </div>
-                </section>
+                <ContactFormSection />
                 </section>
             </main>
         </>
