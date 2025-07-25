@@ -15,6 +15,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Health Line AI - Voice-Based AI Receptionist for Primary Care",
   description: "Automated triage and appointment booking for primary care. Making healthcare truly accessible for everyone without the need for apps or online forms.",
+  icons: {
+    icon: '/Logo_favicon2.png',
+    shortcut: '/Logo_favicon2.png',
+    apple: '/Logo_favicon2.png',
+  },
 };
 
 export default function RootLayout({
