@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { ArrowRight, Menu, X, Phone, Users, Clock, AlertTriangle, Target, TrendingUp, Heart, CheckCircle, Lock, Zap, Loader2 } from 'lucide-react'
+import { ArrowRight, Menu, X, Phone, Clock, AlertTriangle, Target, TrendingUp, Heart, CheckCircle, Lock, Zap, Loader2 } from 'lucide-react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { motion, Variants } from 'framer-motion'
 import { useForm } from 'react-hook-form'
@@ -332,7 +332,7 @@ function ContactFormSection() {
                 <div className="max-w-4xl mx-auto px-6 relative z-10">
                     <div className="text-center mb-12">
                         <h2 className="text-4xl md:text-5xl font-bold mb-6 animate-pulse">Start Automating Your Practice Today</h2>
-                        <p className="text-xl text-blue-100">Ready to see how a targeted voice AI solution can reduce your costs and administrative burden? Reach out to us to try our demo.</p>
+                        <p className="text-xl text-blue-100">Ready to see how a targeted voice AI solution can reduce your costs and administrative burden? Reach out to us to us for a demo.</p>
                     </div>
                     <div className="bg-white/95 backdrop-blur-md rounded-2xl p-8 shadow-2xl border border-white/20">
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -523,7 +523,9 @@ export function HealthHeroSection() {
                             <div className="text-center sm:mx-auto lg:mr-auto lg:mt-0">
                                 <AnimatedGroup variants={transitionVariants}>
                                     <Link
-                                        href="/demo"
+                                        href="https://calendly.com/founders-healthlineai/30min"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
                                         className="hover:bg-background dark:hover:border-t-border bg-muted group mx-auto flex w-fit items-center gap-4 rounded-full border p-1 pl-4 shadow-md shadow-black/5 transition-all duration-300 dark:border-t-white/5 dark:shadow-zinc-950">
                                         <span className="text-foreground text-sm">Delivering Value Today</span>
                                         <span className="dark:border-background block h-4 w-0.5 border-l bg-white dark:bg-zinc-700"></span>
@@ -586,9 +588,9 @@ export function HealthHeroSection() {
                                             size="lg"
                                             variant="gradient-professional"
                                             className="rounded-xl px-6 py-3 text-base font-semibold">
-                                            <Link href="/demo" className="flex items-center gap-2">
+                                            <Link href="https://calendly.com/founders-healthlineai/30min" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                                                 <AnimatedIcon animation="glow" size="sm" className="text-white"><Phone /></AnimatedIcon>
-                                                <span className="text-nowrap">Try Our Demo</span>
+                                                <span className="text-nowrap">Book a call</span>
                                             </Link>
                                         </Button>
                                     </div>
@@ -607,17 +609,16 @@ export function HealthHeroSection() {
                         </div>
                     </div>
 
-                        {/* Our Current Focus Section */}
+                        {/* Our Current Focus Section - Mass Outbound Call Campaigns */}
                         <section className="py-12 relative overflow-hidden" style={{backgroundColor: '#F8FAFC'}}>
                             <div className="max-w-6xl mx-auto px-6 relative z-10">
                                 <ScrollReveal direction="up" delay={0.2}>
                                     <div className="text-center mb-16">
                                         <h2 className="text-4xl md:text-5xl font-bold gradient-text-primary mb-6">Practical AI Automations for Primary Care</h2>
-                                        <h3 className="text-2xl font-semibold bg-gradient-to-r from-emerald-600 to-emerald-700 bg-clip-text text-transparent mb-8">Automated Sample Labeling Assistant</h3>
+                                        <h3 className="text-2xl font-semibold bg-gradient-to-r from-emerald-600 to-emerald-700 bg-clip-text text-transparent mb-8">Mass Outbound Call Campaigns</h3>
                                     </div>
                                 </ScrollReveal>
 
-                                {/* Automated Sample Labeling Assistant - Bento Grid Style */}
                                 <ScrollReveal direction="up" delay={0.4}>
                                     <div className="mb-12">
                                         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 list-none">
@@ -626,7 +627,7 @@ export function HealthHeroSection() {
                                             variant="warning"
                                             icon={<AnimatedIcon animation="pulse" color="warning" size="md"><AlertTriangle /></AnimatedIcon>}
                                             title="The Challenge"
-                                            description="Incorrectly labelled patient samples lead to rejected tests, wasted resources, and delays in care. Staff spend valuable time guiding patients through the process manually."
+                                            description="Practices run hundreds of outbound calls for QOF targets, medication reviews, chronic disease reviews, vaccinations, screening, and appointment reminders—tying up staff and still missing contacts."
                                             className="min-h-[14rem]"
                                         />
                                         
@@ -635,7 +636,7 @@ export function HealthHeroSection() {
                                             variant="accent"
                                             icon={<AnimatedIcon animation="float" color="accent" size="md"><Phone /></AnimatedIcon>}
                                             title="Our Solution"
-                                            description="A simple, automated voice interface that patients can call. It provides clear, step-by-step instructions for correctly labeling their sample and placing it in the right location."
+                                            description="A voice AI agent that runs mass outbound campaigns at scale. It reaches patients, delivers the right message, and captures outcomes—with secure integration to your clinical systems and staff oversight."
                                             className="min-h-[14rem]"
                                         />
                                         
@@ -647,14 +648,14 @@ export function HealthHeroSection() {
                                             description={<>
                                                 <div className="text-center mb-4">
                                                     <AnimatedCounter 
-                                                        value={25000} 
+                                                        value={100000} 
                                                         prefix="£" 
                                                         duration={2.5}
                                                         className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent mb-1"
                                                     />
                                                     <p className="text-sm text-emerald-600">Annual savings per practice</p>
                                                 </div>
-                                                <p className="text-sm">Reduced errors, staff time savings, and faster patient care.</p>
+                                                <p className="text-sm">Higher contact rates, protected QOF income, and staff freed for higher-value work.</p>
                                             </>}
                                             className="min-h-[14rem]"
                                         />
@@ -679,29 +680,29 @@ export function HealthHeroSection() {
                             <GridItem
                                 variant="warning"
                                 icon={<AnimatedIcon animation="glow" color="warning" size="md"><Phone /></AnimatedIcon>}
-                                title="15+ Million"
-                                description="Patient calls to GP practices go unanswered each year in the UK"
+                                title="Low Contact Rates → Repeat Work"
+                                description="25–40% of outbound calls reach patients on the first attempt, forcing staff to make multiple callbacks and wasting hours of admin time."
                                 className="min-h-[12rem]"
                             />
                             <GridItem
                                 variant="accent"
                                 icon={<AnimatedIcon animation="spin" color="accent" size="md"><Clock /></AnimatedIcon>}
-                                title="30 Minutes"
-                                description="The average time a patient can spend waiting in a phone queue"
+                                title="Inefficient Use of Clinical Time"
+                                description="Up to 1 in 3 GP receptionist hours spent on repetitive, scriptable outbound calls instead of higher-value tasks."
                                 className="min-h-[12rem]"
                             />
                             <GridItem
                                 variant="secondary"
-                                icon={<AnimatedIcon animation="float" color="secondary" size="md"><Users /></AnimatedIcon>}
-                                title="32%"
-                                description="of older adults are unable to navigate complex GP online booking systems"
+                                icon={<AnimatedIcon animation="float" color="secondary" size="md"><Target /></AnimatedIcon>}
+                                title="Revenue Leakage from Missed Recalls"
+                                description="Missed or delayed outbound contacts for chronic disease reviews, vaccinations, and screening put ~£700M+ QOF income at risk annually across the UK."
                                 className="min-h-[12rem]"
                             />
                             <GridItem
                                 variant="success"
                                 icon={<AnimatedIcon animation="pulse" color="success" size="md"><Heart /></AnimatedIcon>}
                                 title="Burnout Crisis"
-                                description="Receptionists facing high workloads and stressful environments are experiencing rising levels of burnout"
+                                description="Receptionists facing high workloads and stressful environments are experiencing rising levels of burnout."
                                 className="min-h-[12rem]"
                             />
                             </ul>
@@ -728,15 +729,15 @@ export function HealthHeroSection() {
                             <GridItem
                                 variant="accent"
                                 icon={<Target className="h-5 w-5" />}
-                                title="High Triage Accuracy"
-                                description="In tests, our underlying technology correctly triaged 100% of critical neurosurgery emergency cases, demonstrating its reliability."
+                                title="High voice AI-agent efficacy"
+                                description="Our voice AI agent has been shown to achieve high contact rates and achieve QOF targets."
                                 className="min-h-[14rem]"
                             />
                             <GridItem
                                 variant="secondary"
                                 icon={<Lock className="h-5 w-5" />}
-                                title="Secure Integration"
-                                description="We connect securely to NHS clinical systems (EMIS, SystmOne, Vision) using standard APIs, with a human-in-the-loop interface for staff oversight."
+                                title="No-code interface"
+                                description="No technical knowledge needed for setup. Describe your campaign in plain English, upload a list of patients, and let the AI run it."
                                 className="min-h-[14rem]"
                             />
                             <GridItem
@@ -791,10 +792,9 @@ export function HealthHeroSection() {
                             <GridItem
                                 variant="professional"
                                 icon={<Zap className="h-5 w-5" />}
-                                title="Our Long-Term Goal: The AI Receptionist"
+                                title="Our Long-Term Goal: Healthline Voice AI Campaigns"
                                 description={<>
-                                    <p className="mb-4">The front desk is the heart of a GP practice, but it&apos;s also a major bottleneck. Our ultimate vision is to eliminate long phone queues and missed calls entirely.</p>
-                                    <p>The Healthline AI Receptionist will handle inbound patient calls with human-like empathy and precision, freeing up your reception staff to focus on complex cases that require their expertise. Currently in development pending regulatory approval.</p>
+                                    <p className="mb-4">Our long-term goal is to create a voice AI agent that can handle all outbound calls for a practice, freeing up staff time and reducing costs.</p>
                                 </>}
                                 className="min-h-[16rem]"
                             />
@@ -888,8 +888,8 @@ const HeroHeader = () => {
                                     asChild
                                     variant="gradient-professional"
                                     size="sm">
-                                    <Link href="/demo">
-                                        <span>Try Demo</span>
+                                    <Link href="https://calendly.com/founders-healthlineai/30min" target="_blank" rel="noopener noreferrer">
+                                        <span>Book a call</span>
                                     </Link>
                                 </Button>
                             </div>
